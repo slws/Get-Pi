@@ -1,3 +1,12 @@
+<#
+Function Get-Pi
+---------------
+
+Author: slws
+Description: This function calculates the value of Pi (using the Gregory-Leibniz Series) upto a set number of decimal places.
+Usage: Get-Pi <decimal places>
+
+#>
 Function Get-Pi {
 [cmdletbinding()]
 Param (
