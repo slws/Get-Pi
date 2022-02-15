@@ -1,11 +1,9 @@
 <#
 Function Get-Pi
 ---------------
-
 Author: slws
 Description: This function calculates the value of Pi (using the Gregory-Leibniz Series) upto a set number of decimal places.
 Usage: Get-Pi <decimal places>
-
 #>
 Function Get-Pi {
 [cmdletbinding()]
@@ -13,7 +11,7 @@ Param (
     [int]$dpReq
 )
     Clear-Host
-    If($PSBoundParameters.ContainsKey("dpReq"){
+    If($PSBoundParameters.ContainsKey("dpReq")){
         Write-Output "Calculating Pi to $dpReq decimal places...`r`n"
     } Else {
         Write-Output "Number of decimal places required. e.g.: Get-Pi 6"
@@ -24,6 +22,7 @@ Param (
     $divisor = 3
     $qtrPi = 1
     $piCount = 1
+    [String]$pi = 0
     While($piCharList.count -lt $($dpReq+2)){
         $last1 = $pi
         If(($piCount % 2) -eq 1){
@@ -33,10 +32,8 @@ Param (
         }
         $pi = $($qtrPi*4).ToString()
         #Write-Output "$pi"
-        $chkPi = $pi.ToCharArray()[$piChar]
-        $chklast1 = $last1.ToCharArray()[$piChar]
-        If($chkPi -eq $chklast1){
-            $piCharList.add($chkPi)
+        If($pi.ToCharArray()[$piChar] -eq $last1.ToCharArray()[$piChar]){
+            $piCharList.add($pi.ToCharArray()[$piChar])
             If($piCharList.count -gt 2){
                 $dp = $piChar - 1
                 If($dp -lt $dpReq){
@@ -51,14 +48,13 @@ Param (
         $piCount++
     }
     $2ndStamp = Get-Date
-    [String]$actualPi = [Math]::pi
     If ($dpReq -gt 14){
-        $actualPi = $actualPi.ToCharArray(0,16)
+        $aPiDPReq = 14
     } Else {
-        $actualPi = $actualPi.ToCharArray(0,$dpReq+2)
+        $aPiDPReq = $dpReq
     }
-    Write-Output "$actualPi (MathPi for comparison)"
+    [String]$actualPi = [Math]::pi
+    Write-Output "$($actualPi.ToCharArray(0,$aPiDPReq+2)) (MathPi for comparison, max 16 DP)"
     $runtime = '{0:hh\:mm\:ss\.fff}' -f ($2ndStamp - $1stStamp)
     Write-Output "`r`nFinding $dp decimal places took $runtime!"
-
 }
