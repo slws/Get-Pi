@@ -10,11 +10,10 @@ Function Get-Pi {
 Param (
     [int]$dpReq
 )
-    Clear-Host
     If($PSBoundParameters.ContainsKey("dpReq")){
-        Write-Output "Calculating Pi to $dpReq decimal places...`r`n"
+        Write-Output "Calculating Pi to $dpReq decimal places (DP)...`r`n"
     } Else {
-        Write-Output "Number of decimal places required. e.g.: Get-Pi 6"
+        Write-Output "Number of decimal places (DP) required. e.g.: Get-Pi 6"
     }
     $1stStamp = Get-Date
     $piCharList = New-Object System.Collections.Generic.List[System.Object]
@@ -30,16 +29,16 @@ Param (
         } Else {
             $qtrPi = $qtrPi + 1/$divisor
         }
-        $pi = $($qtrPi*4).ToString()
+        $pi = $($qtrPi * 4).ToString()
         #Write-Output "$pi"
         If($pi.ToCharArray()[$piChar] -eq $last1.ToCharArray()[$piChar]){
             $piCharList.add($pi.ToCharArray()[$piChar])
             If($piCharList.count -gt 2){
                 $dp = $piChar - 1
                 If($dp -lt $dpReq){
-                    Write-Output "Found $dp decimal places: $piCharList"
+                    Write-Output "Found $dp DP: $piCharList"
                 } Else {
-                    Write-Output "`r`nPi to $dp decimal places is: `r`n$piCharList"
+                    Write-Output "`r`nPi to $dp DP is: `r`n$piCharList"
                 }
             }
             $piChar++
@@ -49,12 +48,12 @@ Param (
     }
     $2ndStamp = Get-Date
     If ($dpReq -gt 14){
-        $aPiDPReq = 14
+        $aPiLength = 16
     } Else {
-        $aPiDPReq = $dpReq
+        $aPiLength = $dpReq + 2
     }
     [String]$actualPi = [Math]::pi
-    Write-Output "$($actualPi.ToCharArray(0,$aPiDPReq+2)) (MathPi for comparison, max 16 DP)"
+    Write-Output "$($actualPi.ToCharArray(0,$aPiLength)) (MathPi for comparison, max 14 DP)"
     $runtime = '{0:hh\:mm\:ss\.fff}' -f ($2ndStamp - $1stStamp)
-    Write-Output "`r`nFinding $dp decimal places took $runtime!"
+    Write-Output "`r`nFinding $dp DP took $runtime!"
 }
